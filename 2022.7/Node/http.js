@@ -15,7 +15,9 @@ server.on('request',(req,res)=>{
         }else if(urls.pathname == '/get1'){
             res.end('好好学习')
         }else if(urls.pathname == '/name'){
+            console.log(1)
             var name = urls.query.name
+            // console.log(name)
             if(name == 'admin'){
                 res.end('用户名已经被占用')
             }else{
