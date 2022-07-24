@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>好好学习</h1>
+    <input id="btn" type="button" value="变好还是变坏呢？"><br><br>
+    用户名：<input type="text" name="" id="text">
+    <span id="tips"></span>
+</body>
+<script>
+    var btn = document.getElementById('btn')
+    var text = document.getElementById('text')
+    var tips = document.getElementById('tips')
+    var xml = new XMLHttpRequest();
+    var bool = true
+    //切换文字
+    btn.onclick = function(){
+        
+        if(bool){
+            xml.open('get','http://127.0.0.1:8000/get',true)
+            bool = !bool
+        }else{
+            xml.open('get','http://127.0.0.1:8000/get1',true)
+            bool = !bool
+        }
+        xml.send()
+        xml.onreadystatechange = function(){
+            if(this.readyState == 4){
+                var h1 = document.getElementsByTagName('h1')
+                document.getElementsByTagName('h1')[0].innerHTML= xml.responseText
+            }
+        }
+    }
+    //失去焦点事件
+    //get方式
+    // text.onblur = function(){
+    //     xml.open('get','http://127.0.0.1:8000/name?name='+this.value)
+    //     xml.send()
+    //     xml.onreadystatechange = function(){
+    //         if(xml.readyState==4){
+    //             let tips = document.getElementById('tips')
+    //             tips.innerText = xml.responseText
+    //         }
+    //     }
+    // }
+    //post方式
+    text.onblur = function(){
+        xml.open('post','http://127.0.0.1:8000/name',true)
+        xml.send('name='+this.value)
+        xml.onreadystatechange = function(){
+            if(xml.readyState == 4){
+                    let tips = document.getElementById('tips')
+                    tips.innerText = xml.responseText
+            }
+        }
+    }
+    //封装post_ajax
+    function post_ajax(url,data,fun){
+        xml.open('post',url)
+        xml.send(data)
+        xml.onreadystatechange = function(){
+            if(xml.readyState == 4){
+                fun(xml.responseText)
+            }
+        }
+    }
+    //POST
+    text.onblur = function(){
+        // console.log('name ='+this.value)
+        post_ajax('http://127.0.0.1:8000/name','name='+this.value,function(value){
+            tips.innerText = value
+        })
+    }
+</script>
+</html>
