@@ -18,8 +18,28 @@
     }
     show()
     //const定义后不能变
-    const a = '你改不掉'
-    console.log(a)
-    a = '我就改'
+    const test = '你改不掉'
+    console.log(test)
+    // test = '我就改'
+    //值的传递
+    let a = 100;
+    let b = a;
+    a = 200;
+    console.log(b); // 100
+    //引用的传递
+    let c = { age: 20 };
+    let d = c;
+    d.age = 30;
+    console.log(d.age); // 30
+    //判断数组的数据类型
+    var arr = []
+    Array.isArray(arr); // true
+    arr.__proto__ === Array.prototype; // true
+    arr instanceof Array; // true
+    Object.prototype.toString.call(arr); // "[object Array]"
+    //0.1+0.2!==0.3
+    var num1 = 0.1
+    var num2 = 0.2
+    console.log(BigInt(num1)+BigInt(num1)==0.3)
 </script>
 </html>
